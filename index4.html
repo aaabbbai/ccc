@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Verification Complete</title>
+  <style>
+    body {
+      background-color: #0088cc;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      direction: ltr;
+    }
+
+    .container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      box-sizing: border-box;
+    }
+
+    h2 {
+      color: #0088cc;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #333;
+    }
+
+    @media (max-width: 400px) {
+      .container {
+        padding: 20px;
+        width: 95%;
+      }
+
+      h2 {
+        font-size: 18px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>✅ Your identity has been successfully verified.</h2>
+    <p>Thank you for completing the verification process.</p>
+  </div>
+
+  <script>
+    // اگر کاربر دکمه برگشت (Back) گوشی رو بزنه برگرده به صفحه اول
+    window.addEventListener("popstate", function () {
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>
+
